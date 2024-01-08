@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.render("index.ejs", { content: "API Response." });
 });
 
-app.get("/noAuth", async(req, res) => {
+app.get("/noAuth", async (req, res) => {
   //TODO 2: Use axios to hit up the /random endpoint
   try {
     const response = await axios.get("https://secrets-api.appbrewery.com/random");
@@ -29,22 +29,22 @@ app.get("/noAuth", async(req, res) => {
   }
 });
 
-app.get("/basicAuth", async(req, res) => {
+app.get("/basicAuth", async (req, res) => {
   //TODO 3: Write your code here to hit up the /all endpoint
-  try{
+  try {
     const response = await axios.get("https://secrets-api.appbrewery.com/all", {
-      params: {
-        page: 1
-      }
-    }, {
       auth: {
         username: yourUsername,
         password: yourPassword,
       }
-    });
+    }, 
+    {
+      params: {
+        page: 1
+    }});
     const result = response.data;
     res.render("index.ejs", { data: result });
-    } catch (error) {
+  } catch (error) {
     console.error("Failed to make request:", error.message);
     res.render("index.ejs", {
       error: error.message,
@@ -52,10 +52,10 @@ app.get("/basicAuth", async(req, res) => {
   }
 });
 
-app.get("/apiKey", async(req, res) => {
+app.get("/apiKey", async (req, res) => {
   //TODO 4: Write your code here to hit up the /filter endpoint
-  try{
-    const response = await axios.get("https://secrets-api.appbrewery.com/filter",{
+  try {
+    const response = await axios.get("https://secrets-api.appbrewery.com/filter", {
       params: {
         score: 5,
         apiKey: yourAPIKey
@@ -71,10 +71,10 @@ app.get("/apiKey", async(req, res) => {
   }
 });
 
-app.get("/bearerToken", async(req, res) => {
+app.get("/bearerToken", async (req, res) => {
   //TODO 5: Write your code here to hit up the /secrets/{id} endpoint
   //and get the secret with id of 42
-  try{
+  try {
     const config = {
       headers: { Authorization: `Bearer ${yourBearerToken}` }
     };
@@ -82,7 +82,7 @@ app.get("/bearerToken", async(req, res) => {
     const result = response.data;
     res.render("index.ejs", { data: result });
 
-  } catch (error){
+  } catch (error) {
     console.error("Failed to make request", error.message);
     res.render("index.ejs", {
       error: error.message,
